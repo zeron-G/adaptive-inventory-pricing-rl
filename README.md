@@ -7,6 +7,7 @@ This repository contains the project planning and proposal materials for a BU.52
 - `docs/project_plan_en.md`: full project plan in English.
 - `docs/project_plan_zh.md`: independent Chinese translation of the full project plan.
 - `docs/research_notes.md`: dataset scan, source links, and design notes.
+- `proposal/group_project_proposal_detailed.md`: expanded proposal draft with detailed reasoning and implementation design.
 - `proposal/group_project_proposal.md`: submission-ready one-page proposal draft in English.
 - `proposal/group_project_proposal.zh.md`: Chinese reference translation of the proposal.
 - `proposal/group_project_proposal.pdf`: one-page PDF generated from the proposal markdown.
@@ -15,10 +16,10 @@ This repository contains the project planning and proposal materials for a BU.52
 
 ## Important Placeholder
 
-Before submitting on Canvas, replace the following placeholders in `proposal/group_project_proposal.md` and rerun the PDF script:
+The current group metadata is:
 
-- `Group [TBD]`
-- `[Member 1], [Member 2], [Member 3]`
+- Group Number: Group Project 13
+- Group Members: Jiayi Zhuo, Keyang Li, Rongze Gao, Zhexi Wang
 
 ## Proposed Core Method
 

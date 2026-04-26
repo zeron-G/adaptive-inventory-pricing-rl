@@ -1,7 +1,7 @@
 # Group Project Proposal 中文参考译文
 
-组号：Group [TBD]  
-组员：[Member 1], [Member 2], [Member 3]  
+组号：Group Project 13  
+组员：Jiayi Zhuo, Keyang Li, Rongze Gao, Zhexi Wang  
 课程：BU.520.750.51.SP26  
 日期：2026 年 4 月 26 日
 

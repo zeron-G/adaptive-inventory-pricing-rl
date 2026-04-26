@@ -1,5 +1,5 @@
-Group Number: Group [TBD]  
-Group Members: [Member 1], [Member 2], [Member 3]  
+Group Number: Group Project 13  
+Group Members: Jiayi Zhuo, Keyang Li, Rongze Gao, Zhexi Wang  
 Course: BU.520.750.51.SP26  
 Date: April 26, 2026
 
