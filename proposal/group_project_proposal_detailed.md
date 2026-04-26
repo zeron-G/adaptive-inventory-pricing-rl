@@ -94,13 +94,13 @@ Each component is finite and observable or directly computable from simulated op
 
 Inventory is one of the most important state variables because it determines whether demand can be fulfilled. We will discretize on-hand inventory into five bins:
 
-| Inventory bin | Meaning | Example threshold if capacity = 60 |
-| --- | --- | --- |
-| `stockout` | no units available | 0 |
-| `low` | available inventory is risky | 1-10 |
-| `medium` | normal operating range | 11-30 |
-| `high` | more than near-term expected demand | 31-45 |
-| `excess` | close to capacity or overstocked | 46-60 |
+| Inventory bin | Meaning                             | Example threshold if capacity = 60 |
+| ------------- | ----------------------------------- | ---------------------------------- |
+| `stockout`    | no units available                  | 0                                  |
+| `low`         | available inventory is risky        | 1-10                               |
+| `medium`      | normal operating range              | 11-30                              |
+| `high`        | more than near-term expected demand | 31-45                              |
+| `excess`      | close to capacity or overstocked    | 46-60                              |
 
 Thresholds can be adjusted after selecting the SKU. The thresholds should be based on SKU-level average demand and inventory capacity rather than chosen arbitrarily.
 
@@ -108,11 +108,11 @@ Thresholds can be adjusted after selecting the SKU. The thresholds should be bas
 
 The agent should know whether recent demand is weak, normal, or strong. We will compute a rolling recent-demand signal, such as average sales over the previous 7 or 14 days, then discretize it by historical quantiles:
 
-| Demand signal bin | Meaning |
-| --- | --- |
-| `low` | recent demand below the 33rd percentile |
-| `normal` | recent demand between the 33rd and 67th percentiles |
-| `high` | recent demand above the 67th percentile |
+| Demand signal bin | Meaning                                             |
+| ----------------- | --------------------------------------------------- |
+| `low`             | recent demand below the 33rd percentile             |
+| `normal`          | recent demand between the 33rd and 67th percentiles |
+| `high`            | recent demand above the 67th percentile             |
 
 This feature allows the agent to react differently to the same inventory level under different demand conditions. For example, 15 units may be enough when demand is low but risky when demand is high.
 
@@ -120,11 +120,11 @@ This feature allows the agent to react differently to the same inventory level u
 
 The current price tier helps preserve the Markov property because demand and future decisions may depend on the price currently in effect. We will use three price tiers:
 
-| Price tier | Meaning |
-| --- | --- |
-| `discount` | below the SKU's normal price |
-| `regular` | normal historical price level |
-| `premium` | above the SKU's normal price |
+| Price tier | Meaning                       |
+| ---------- | ----------------------------- |
+| `discount` | below the SKU's normal price  |
+| `regular`  | normal historical price level |
+| `premium`  | above the SKU's normal price  |
 
 For M5, price tiers can be created relative to the product-store historical median price. For example, discount may mean price below 95% of median, regular may mean 95%-105% of median, and premium may mean above 105% of median. If a selected SKU has little historical price variation, we will still define simulated price tiers around the median price.
 
@@ -132,11 +132,11 @@ For M5, price tiers can be created relative to the product-store historical medi
 
 Retail demand changes by day type. The M5 data includes calendar and event information, including weekdays, weekends, events, and SNAP-related indicators. We will discretize calendar context into four types:
 
-| Calendar type | Meaning |
-| --- | --- |
-| `weekday` | regular weekday |
-| `weekend` | Saturday or Sunday |
-| `event` | holiday, cultural event, sporting event, or special date |
+| Calendar type   | Meaning                                                             |
+| --------------- | ------------------------------------------------------------------- |
+| `weekday`       | regular weekday                                                     |
+| `weekend`       | Saturday or Sunday                                                  |
+| `event`         | holiday, cultural event, sporting event, or special date            |
 | `snap_or_event` | SNAP-related day or event-related high-demand day, where applicable |
 
 If overlap occurs, we will use a priority rule such as event over weekend over weekday, or we will merge sparse categories to keep the state space small.
@@ -145,11 +145,11 @@ If overlap occurs, we will use a priority rule such as event over weekend over w
 
 Replenishment often has a lead time. If an order has been placed but has not arrived, the agent should account for that incoming supply. We will discretize pipeline inventory into:
 
-| Pipeline bin | Meaning |
-| --- | --- |
-| `none` | no outstanding replenishment |
-| `small` | small or medium order arriving soon |
-| `large` | large order arriving soon |
+| Pipeline bin | Meaning                             |
+| ------------ | ----------------------------------- |
+| `none`       | no outstanding replenishment        |
+| `small`      | small or medium order arriving soon |
+| `large`      | large order arriving soon           |
 
 This state component is important because the best action may differ when inventory is low but a large order is arriving tomorrow versus when no order is coming.
 
@@ -181,11 +181,11 @@ a_t = (price_choice_t, order_quantity_t)
 
 The price decision is discrete:
 
-| Price choice | Meaning |
-| --- | --- |
-| `discount` | lower price to stimulate demand |
-| `regular` | maintain normal price |
-| `premium` | increase margin or ration scarce inventory |
+| Price choice | Meaning                                    |
+| ------------ | ------------------------------------------ |
+| `discount`   | lower price to stimulate demand            |
+| `regular`    | maintain normal price                      |
+| `premium`    | increase margin or ration scarce inventory |
 
 The actual numerical price will be generated from the selected SKU's baseline price. For example:
 
@@ -201,12 +201,12 @@ These multipliers can be adjusted in sensitivity analysis.
 
 The replenishment decision is also discrete:
 
-| Order choice | Example quantity if capacity = 60 | Interpretation |
-| --- | ---: | --- |
-| `none` | 0 | no replenishment |
-| `small` | 10 | cover short-term demand |
-| `medium` | 20 | restore normal stock |
-| `large` | 35 | prepare for high demand or recover from low stock |
+| Order choice | Example quantity if capacity = 60 | Interpretation                                    |
+| ------------ | ---------------------------------:| ------------------------------------------------- |
+| `none`       | 0                                 | no replenishment                                  |
+| `small`      | 10                                | cover short-term demand                           |
+| `medium`     | 20                                | restore normal stock                              |
+| `large`      | 35                                | prepare for high demand or recover from low stock |
 
 The environment will enforce capacity constraints. If an order would exceed maximum inventory capacity after arrival, the excess may be blocked or penalized, depending on the simulator design.
 
@@ -371,15 +371,15 @@ The simulator will represent a periodic-review inventory system with price-depen
 
 Key simulator parameters:
 
-| Parameter | Meaning | Initial value idea |
-| --- | --- | --- |
-| `capacity` | maximum on-hand inventory | 40-80 units depending on SKU |
-| `lead_time` | days between order and arrival | 1 or 2 days |
-| `unit_cost` | procurement cost per unit | 50%-70% of regular price |
-| `fixed_order_cost` | fixed cost per nonzero order | small positive value |
-| `holding_cost` | cost per unit left in inventory | 1%-3% of unit cost per day |
-| `stockout_penalty` | penalty per unit of lost demand | lost margin or larger |
-| `price_elasticity_scenario` | demand response to price | low/medium/high |
+| Parameter                   | Meaning                         | Initial value idea           |
+| --------------------------- | ------------------------------- | ---------------------------- |
+| `capacity`                  | maximum on-hand inventory       | 40-80 units depending on SKU |
+| `lead_time`                 | days between order and arrival  | 1 or 2 days                  |
+| `unit_cost`                 | procurement cost per unit       | 50%-70% of regular price     |
+| `fixed_order_cost`          | fixed cost per nonzero order    | small positive value         |
+| `holding_cost`              | cost per unit left in inventory | 1%-3% of unit cost per day   |
+| `stockout_penalty`          | penalty per unit of lost demand | lost margin or larger        |
+| `price_elasticity_scenario` | demand response to price        | low/medium/high              |
 
 The exact values will be chosen for interpretability and tested with sensitivity analysis.
 
@@ -394,11 +394,11 @@ adjusted_demand_t = price_adjustment(price_choice_t) x base_demand_t + noise
 
 Example price adjustments:
 
-| Scenario | Discount effect | Premium effect |
-| --- | ---: | ---: |
-| Low elasticity | +5% demand | -5% demand |
-| Medium elasticity | +15% demand | -15% demand |
-| High elasticity | +30% demand | -30% demand |
+| Scenario          | Discount effect | Premium effect |
+| ----------------- | ---------------:| --------------:|
+| Low elasticity    | +5% demand      | -5% demand     |
+| Medium elasticity | +15% demand     | -15% demand    |
+| High elasticity   | +30% demand     | -30% demand    |
 
 Demand will be rounded to nonnegative integer units. We can also cap extreme sampled demand to avoid unrealistic outliers in a small course project.
 
@@ -464,12 +464,12 @@ Early training will explore many price/order combinations. Later training will e
 
 Candidate hyperparameters:
 
-| Hyperparameter | Candidate values |
-| --- | --- |
-| `gamma` | 0.90, 0.95, 0.99 |
-| `alpha` | 0.05, 0.10, 0.20 |
-| `epsilon_decay` | linear decay, exponential decay |
-| episode length | 90 days, 180 days |
+| Hyperparameter     | Candidate values                  |
+| ------------------ | --------------------------------- |
+| `gamma`            | 0.90, 0.95, 0.99                  |
+| `alpha`            | 0.05, 0.10, 0.20                  |
+| `epsilon_decay`    | linear decay, exponential decay   |
+| episode length     | 90 days, 180 days                 |
 | number of episodes | 5,000-50,000 depending on runtime |
 
 Hyperparameters will be selected using validation episodes. Final evaluation will be run on held-out random seeds or held-out calendar periods.
@@ -554,15 +554,15 @@ This directly aligns with the business objective, but it is not sufficient by it
 
 We will report several operational metrics:
 
-| Metric | Definition | Why it matters |
-| --- | --- | --- |
-| Fill rate | fulfilled demand / total demand | measures customer service |
-| Stockout days | days with zero inventory or lost sales | identifies service failures |
-| Average ending inventory | average units left after demand | measures overstock risk |
-| Inventory turnover | sales / average inventory | measures inventory efficiency |
-| Gross margin | revenue - procurement cost | separates margin from penalties |
-| Price changes | number of price-tier changes | measures operational stability |
-| Average selling price | mean realized price | helps interpret pricing behavior |
+| Metric                   | Definition                             | Why it matters                   |
+| ------------------------ | -------------------------------------- | -------------------------------- |
+| Fill rate                | fulfilled demand / total demand        | measures customer service        |
+| Stockout days            | days with zero inventory or lost sales | identifies service failures      |
+| Average ending inventory | average units left after demand        | measures overstock risk          |
+| Inventory turnover       | sales / average inventory              | measures inventory efficiency    |
+| Gross margin             | revenue - procurement cost             | separates margin from penalties  |
+| Price changes            | number of price-tier changes           | measures operational stability   |
+| Average selling price    | mean realized price                    | helps interpret pricing behavior |
 
 ### Visual Evaluation
 
@@ -613,29 +613,6 @@ The project has several limitations that we will state clearly:
 
 These limitations do not invalidate the project because the goal is to demonstrate tabular RL on a well-defined finite simulator calibrated by real retail data, not to deploy a production retail pricing engine.
 
-### Team Roles
-
-The team has four members, so the work can be divided as follows:
-
-| Member | Suggested role | Responsibilities |
-| --- | --- | --- |
-| Jiayi Zhuo | Data and preprocessing lead | download data, clean M5 files, select SKU/store, build discrete context bins |
-| Keyang Li | Environment and simulator lead | implement inventory dynamics, demand sampling, reward function, state/action encoding |
-| Rongze Gao | RL methodology lead | implement Q-learning, SARSA, optional value iteration/policy iteration, tune hyperparameters |
-| Zhexi Wang | Evaluation and reporting lead | implement baselines, generate plots/tables, write final interpretation and presentation materials |
-
-These roles can be adjusted, but assigning ownership early will reduce duplicated work.
-
-### Proposed Timeline
-
-| Week | Work plan |
-| --- | --- |
-| Week 6 | Finalize proposal, confirm data source, define MDP, assign roles |
-| Week 7 | Download/process M5 sample, choose SKU/store, implement simulator skeleton |
-| Week 8 | Implement Q-learning and SARSA, run initial experiments, debug reward and transitions |
-| Week 9 | Add baselines, tune hyperparameters, run evaluation across seeds and scenarios |
-| Week 10 | Prepare final report, plots, policy interpretation, and presentation/demo |
-
 ### Final Deliverables
 
 Expected final project deliverables:
@@ -664,3 +641,5 @@ Expected final project deliverables:
 ### Academic Ethics Acknowledgment
 
 This proposal was prepared using course concepts, public dataset documentation, published and online references listed above, and GenAI assistance from ChatGPT/Codex for research organization, drafting, and editing. All final submitted work will be reviewed and revised by the group members.
+
+
