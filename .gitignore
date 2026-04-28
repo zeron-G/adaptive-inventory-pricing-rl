@@ -5,5 +5,8 @@ __pycache__/
 data/raw/
 data/processed/
 reports_ci/
+notebook_outputs/
+notebooks/data/
+notebooks/notebook_outputs/
 *.zip
 .DS_Store

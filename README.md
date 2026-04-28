@@ -18,7 +18,8 @@ This repository contains the project planning and proposal materials for a BU.52
 - `proposal/group_project_proposal.md`: submission-ready one-page proposal draft in English.
 - `proposal/group_project_proposal.zh.md`: Chinese reference translation of the proposal.
 - `proposal/group_project_proposal.pdf`: one-page PDF generated from the proposal markdown.
-- `notebooks/Adaptive_Inventory_Pricing_Tabular_RL_Report.ipynb`: full executed report notebook.
+- `notebooks/Adaptive_Inventory_Pricing_Tabular_RL_Complete_Standalone_Report.ipynb`: primary standalone report notebook with all code and analysis inline.
+- `notebooks/Adaptive_Inventory_Pricing_Tabular_RL_Report.ipynb`: shorter artifact-based report notebook.
 - `reports/`: generated experiment tables, figures, and learned Q-tables.
 - `data/README.md`: data download and usage notes.
 
