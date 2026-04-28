@@ -1,0 +1,10 @@
+{
+  "algorithm": "q_learning",
+  "alpha": 0.2,
+  "gamma": 0.99,
+  "epsilon_start": 1.0,
+  "epsilon_min": 0.03,
+  "epsilon_decay": 0.999,
+  "episodes": 3000,
+  "seed": 2026
+}

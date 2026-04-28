@@ -1,1 +1,10 @@
+matplotlib>=3.8
+nbconvert>=7.16
+nbformat>=5.10
+numpy>=1.26
+pandas>=2.2
+pypdf>=4.3
+pytest>=8.2
 reportlab>=4.2
+scikit-learn>=1.5
+tqdm>=4.66
